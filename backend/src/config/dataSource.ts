@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 import * as dotenv from 'dotenv';
+import { seedUsers } from '../seeds/user.seed';
 dotenv.config();
 
 export const dataSource = new DataSource({
@@ -13,16 +14,15 @@ export const dataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: ['src/entity/**/*.ts'],
-  migrations: ['src/migration/**/*.ts'],
   subscribers: [],
 })
 
 export const connect = async () => {
   try {
     await dataSource.initialize();
-    await dataSource.runMigrations();
-    console.log('> Connected to PostgreSQL database');
-  } catch {
-    console.log('> Connected to PostgreSQL database');
+    await seedUsers(dataSource);
+    console.info('> Connected to PostgreSQL database');
+  } catch (error){
+    console.error('> Error Connecting PostgreSQL database');
   }
 };
