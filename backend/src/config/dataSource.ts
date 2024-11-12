@@ -6,7 +6,7 @@ dotenv.config();
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
+  host: process.env.DB_HOST || 'localhost',
   port: 5432,
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -23,6 +23,6 @@ export const connect = async () => {
     await seedUsers(dataSource);
     console.info('> Connected to PostgreSQL database');
   } catch (error){
-    console.error('> Error Connecting PostgreSQL database');
+    console.error('> Error :: ', error);
   }
 };
