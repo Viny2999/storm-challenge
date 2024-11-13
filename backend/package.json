@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=dev nodemon src/app.ts",
     "test": "LOG_LEVEL=test jest ./src/tests -i --colors --verbose --forceExit",
     "lint:fix": "eslint \"./**/*.ts\" --fix",
-    "husky:prepare": "husky"
+    "prepare": "husky"
   },
   "dependencies": {
     "@types/express": "4.17.13",
