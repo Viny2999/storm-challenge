@@ -23,5 +23,5 @@ export class User {
     enum: [UserRole.ADMIN, UserRole.USER],
     default: UserRole.USER,
   })
-  role: string;
+  role: UserRole;
 }

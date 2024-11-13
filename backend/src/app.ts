@@ -9,8 +9,10 @@ dotenv.config();
 const logger = LoggerService.getLogger();
 
 const app: express.Application = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
+
+app.use(express.json());
 
 app.use('/v1', Routes);
 

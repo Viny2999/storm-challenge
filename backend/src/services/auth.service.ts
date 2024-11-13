@@ -1,15 +1,46 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { UserRepository } from '../repositories/user.repository';
+import { Request, Response } from 'express';
+import { User } from '../entity/User';
 dotenv.config();
+
+const userRepository = new UserRepository();
 
 export class AuthService {
   private saltRounds: number = Number(process.env.SALT_ROUNDS);
 
-  async hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, this.saltRounds);
+  public hashPassword = (password: string): string => {
+    return bcrypt.hashSync(password, this.saltRounds);
   }
 
-  async comparePassword(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+  public comparePassword = (password: string, hash: string): boolean => {
+    return bcrypt.compareSync(password, hash);
+  }
+
+  public generateToken = (user: User): string => {
+    const bodyToken = {
+      id: user.id,
+      role: user.role,
+    }
+
+    return jwt.sign(bodyToken, process.env.JWT_SECRET);
+  };
+
+  public login = async (req: Request, res: Response): Promise<Response> => {
+    const { email, password } = req.body;
+
+    const user = await userRepository.viewByEmail(email);
+
+    const isLogged = this.comparePassword(password, user.password);
+
+    if (!isLogged) {
+      throw new Error('Invalid email or password');
+    }
+
+    const token = this.generateToken(user);
+
+    return res.status(201).send({ token });
   }
 }

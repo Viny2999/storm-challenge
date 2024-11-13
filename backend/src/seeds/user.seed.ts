@@ -3,10 +3,9 @@ import { User } from '../entity/User';
 import { AuthService } from '../services/auth.service';
 import { UserRole } from '../entity/enum/UserRole.enum';
 
-const authService = new AuthService();
-
 export const seedUsers = async (dataSource: DataSource) => {
   const userRepository = dataSource.getRepository(User);
+  const authService = new AuthService();
 
   const user = {
     name: 'admin',
