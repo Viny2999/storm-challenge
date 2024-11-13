@@ -4,20 +4,20 @@ import { MovieGenre } from './enum/MovieGenre.enum';
 @Entity({ name: 'movies' })
 export class Movie {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column()
-  name: string;
+    name: string;
 
   @Column({ nullable: true })
-  description: string;
+    description: string;
 
   @Column({ nullable: true })
-  director: string;
+    director: string;
 
   @Column({
     type: 'enum',
     enum: MovieGenre,
   })
-  genre: MovieGenre;
+    genre: MovieGenre;
 }

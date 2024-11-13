@@ -18,6 +18,7 @@ export class UserRepository {
   }
 
   async update(id: number, user: Partial<User>): Promise<User> {
+    delete user.role;
     await this.userRepository.update(id, user);
     return this.view(id);
   }

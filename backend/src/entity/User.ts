@@ -4,24 +4,24 @@ import { UserRole } from './enum/UserRole.enum';
 @Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column()
-  name: string;
+    name: string;
 
   @Column()
-  email: string;
+    email: string;
 
   @Column()
-  password: string;
+    password: string;
 
   @Column({ default: true })
-  status: boolean;
+    status: boolean;
 
   @Column({
     type: 'enum',
     enum: [UserRole.ADMIN, UserRole.USER],
     default: UserRole.USER,
   })
-  role: UserRole;
+    role: UserRole;
 }

@@ -36,7 +36,7 @@ export class AuthService {
     const isLogged = this.comparePassword(password, user.password);
 
     if (!isLogged) {
-      throw new Error('Invalid email or password');
+      return res.status(401).send({ message: 'Invalid email or password' });
     }
 
     const token = this.generateToken(user);

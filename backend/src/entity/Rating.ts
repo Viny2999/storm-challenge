@@ -6,25 +6,25 @@ import { Movie } from './Movie';
 @Unique(['user', 'movie'])
 export class Rating {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @ManyToOne(() => User, user => user.id)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+    user: User;
 
   @Column()
-  user_id: number;
+    user_id: number;
 
   @ManyToOne(() => Movie, movie => movie.id)
   @JoinColumn({ name: 'movie_id' })
-  movie: Movie;
+    movie: Movie;
 
   @Column()
-  movie_id: number;
+    movie_id: number;
 
   @Column({ type: 'int', width: 1 })
-  rating: number;
+    rating: number;
 
   @CreateDateColumn({ name: 'rating_date', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  ratingDate: Date;
+    ratingDate: Date;
 }
