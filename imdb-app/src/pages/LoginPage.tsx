@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config/enviroment';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginPageProps {
   onLoginSuccess: (token: string) => void;
@@ -10,6 +11,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate(); // Hook para navegação
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,10 +20,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         username,
         password,
       });
-      const token = response.data.token;
-      localStorage.setItem('authToken', token);
+      const { token, role } = response.data;
+      localStorage.setItem('authToken', token); // Salva o token no localStorage
+      localStorage.setItem('userRole', role); // Salva a role
       onLoginSuccess(token);
       setError('');
+      navigate('/movies'); // Redireciona para a página de filmes
     } catch (err) {
       setError('Login failed. Please check your credentials.');
     }
