@@ -3,13 +3,15 @@
 Projeto feito em Node usando Express e React usando Typescript.
 
 ## Decisões Técnicas
-Decidi fazer o sistema usando express pela simplicidade da solução e velocidade.
+Escolhi usar express no backend pela simplicidade da solução e velocidade.
 
 E no frontend usei apenas React Puro.
 
+Criei os dois projetos em monorepo para facilitar a execução do teste localmente.
+
 ## Como Executar
 ```
-docker compose up
+docker compose up -d
 ```
 O Docker subirá 3 containers:
   * Banco de Dados Postgres (com criação das tabelas e usuário admin da aplicação criados)
