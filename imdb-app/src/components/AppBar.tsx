@@ -25,10 +25,19 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({ isLoggedIn, role, onLogout 
     navigate('/login');
   };
 
+  const handleNavigateToMovies = () => {
+    navigate('/movies');
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, cursor: 'pointer' }}
+          onClick={handleNavigateToMovies}
+        >
           IMDb
         </Typography>
         {isLoggedIn ? (

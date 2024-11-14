@@ -35,12 +35,22 @@ export class MovieService {
     const id = Number(req.params.id);
     const userToken = req['user'] as JwtPayload;
     
-    const movie = await movieRepository.addVote(
-      id,
-      userToken.id,
-      req.body.rating,
-    );
-    return res.send(movie);
+    try {
+      const movie = await movieRepository.addVote(
+        id,
+        userToken.id,
+        req.body.rating,
+      );
+      
+      return res.send(movie);
+    } catch (error) {
+
+      if (error.message.includes('duplicate key')) {
+        return res.status(400).send({ message: 'You have already voted for this movie' });
+      }
+
+      return res.status(500).send({ message: error.message });
+    }
   }
 
   public calculateRating = async (id: number): Promise<number> => {

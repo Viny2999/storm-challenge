@@ -42,8 +42,8 @@ export const createMovie = async (movieData: MovieData) => {
   return response.data;
 };
 
-export const voteOnMovie = async (id: string, ratings: number) => {
-  const response = await apiClient.post(`/v1/movie/${id}/vote`, { ratings });
+export const voteOnMovie = async (id: string, rating: number) => {
+  const response = await apiClient.post(`/v1/movie/${id}/vote`, { rating });
   return response.data;
 };
 

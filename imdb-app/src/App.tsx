@@ -58,17 +58,21 @@ const App: React.FC = () => {
         <Route
           path="/add-movie"
           element={
-            <AdminRoute>
-              <AddMoviePage />
-            </AdminRoute>
+            <ProtectedRoute>
+              <AdminRoute>
+                <AddMoviePage />
+              </AdminRoute>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/create-user"
           element={
-            <AdminRoute>
-              <CreateUserPage />
-            </AdminRoute>
+            <ProtectedRoute>
+              <AdminRoute>
+                <CreateUserPage />
+              </AdminRoute>
+            </ProtectedRoute>
           }
         />
       </Routes>
