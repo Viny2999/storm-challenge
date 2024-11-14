@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Movie } from '../interfaces/Movie';
+import { Link } from 'react-router-dom';
 import { listMovies, setAuthToken } from '../service/http.service';
 
 const MovieListPage: React.FC = () => {
@@ -15,8 +16,8 @@ const MovieListPage: React.FC = () => {
       }
 
       try {
-        setAuthToken(token);      
-        const movies = await listMovies()
+        setAuthToken(token);
+        const movies = await listMovies();
         setMovies(movies);
       } catch (err) {
         setError('Failed to fetch movies.');
@@ -32,7 +33,9 @@ const MovieListPage: React.FC = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul>
         {movies.map((movie, index) => (
-          <li key={index}>{movie.name} - {movie.director} - {movie.genre}</li>
+          <li key={index}>
+            <Link to={`/movies/${movie.id}`}>{movie.name} - {movie.director} - {movie.genre}</Link>
+          </li>
         ))}
       </ul>
     </div>

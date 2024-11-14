@@ -7,6 +7,7 @@ import CustomAppBar from './components/AppBar';
 import AdminRoute from './components/AdminRoute';
 import AddMoviePage from './pages/AddMoviePage';
 import CreateUserPage from './pages/CreateUserPage';
+import MovieDetailPage from './pages/MovieDetailPage';
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -43,6 +44,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <MovieListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/movies/:id"
+          element={
+            <ProtectedRoute>
+              <MovieDetailPage />
             </ProtectedRoute>
           }
         />

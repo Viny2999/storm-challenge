@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../config/enviroment';
-import { Movie, MovieData } from '../interfaces/Movie';
+import { Movie, MovieData, MovieDetail } from '../interfaces/Movie';
 import { UserData } from '../interfaces/User';
 import { LoginResponse } from '../interfaces/Login';
 
@@ -32,10 +32,21 @@ export const listMovies = async (): Promise<Movie[]> => {
   return response.data;
 };
 
+export const getMovieById = async (id: string): Promise<MovieDetail> => {
+  const response = await apiClient.get(`/v1/movie/${id}`);
+  return response.data;
+};
+
 export const createMovie = async (movieData: MovieData) => {
   const response = await apiClient.post('/v1/movie', movieData);
   return response.data;
 };
+
+export const voteOnMovie = async (id: string, ratings: number) => {
+  const response = await apiClient.post(`/v1/movie/${id}/vote`, { ratings });
+  return response.data;
+};
+
 
 export const createUser = async (userData: UserData) => {
   const response =  await apiClient.post('/v1/user', userData);

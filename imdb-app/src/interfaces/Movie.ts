@@ -8,3 +8,8 @@ export interface MovieData {
 export interface Movie extends MovieData {
   id: number;
 }
+
+export interface MovieDetail extends MovieData {
+  id: number;
+  rating: number;
+}
