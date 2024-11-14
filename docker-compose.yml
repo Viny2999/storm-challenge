@@ -1,11 +1,10 @@
-version: '3.8'
-
 services:
   app:
-    build: .
+    build:
+      context: ./backend
     command: npm start
     volumes:
-      - .:/usr/app/
+      - ./backend:/usr/app/
       - /usr/app/node_modules
     environment:
       - DB_HOST=db
@@ -23,4 +22,16 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  frontend:
+    build:
+      context: ./imdb-app
+    volumes:
+      - ./imdb-app:/usr/src/front
+      - /usr/src/front/node_modules
+    ports:
+      - '3001:3001'
+    command: npm start
+    depends_on:
+      - app
