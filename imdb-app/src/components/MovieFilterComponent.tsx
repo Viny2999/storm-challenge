@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid, SelectChangeEvent } from '@mui/material';
+import { Container, TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid, SelectChangeEvent, Box } from '@mui/material';
 import { MovieFilter, MovieGenre } from '../interfaces/Movie';
 
 interface MovieFilterProps {
@@ -35,36 +35,52 @@ const MovieFilterComponent: React.FC<MovieFilterProps> = ({ onFilter }) => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+    <Container maxWidth="md">
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          backgroundColor: '#fff',
+          borderRadius: 2,
+          padding: 2,
+          boxShadow: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+        }}
+      >
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} sm={3}>
             <TextField
               label="Nome"
               name="name"
               value={filter.name}
               onChange={handleChange}
               fullWidth
+              size="small"
             />
           </Grid>
-          <Grid item xs={12}>
+
+          <Grid item xs={12} sm={3}>
             <TextField
               label="Diretor"
               name="director"
               value={filter.director}
               onChange={handleChange}
               fullWidth
+              size="small"
             />
           </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
+
+          <Grid item xs={12} sm={3}>
+            <FormControl fullWidth size="small">
               <InputLabel id="genre-label">Gênero</InputLabel>
               <Select
                 labelId="genre-label"
                 name="genre"
                 value={filter.genre || ''}
                 onChange={handleSelectChange}
-                fullWidth
+                label="Gênero"
               >
                 <MenuItem value="">
                   <em>None</em>
@@ -77,13 +93,14 @@ const MovieFilterComponent: React.FC<MovieFilterProps> = ({ onFilter }) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+
+          <Grid item xs={12} sm={3} display="flex" justifyContent="flex-end">
+            <Button type="submit" variant="contained" color="primary" size="large" fullWidth>
               Filtrar
             </Button>
           </Grid>
         </Grid>
-      </form>
+      </Box>
     </Container>
   );
 };
