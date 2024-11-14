@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MovieListPage from './pages/MovieListPage';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -38,6 +38,7 @@ const App: React.FC = () => {
     <Router>
       <CustomAppBar isLoggedIn={!!token} role={role} onLogout={handleLogout} />
       <Routes>
+        <Route path="/" element={<Navigate to="/movies" />} />
         <Route path="/login" element={<LoginPage onLoginSuccess={handleLoginSuccess} />} />
         <Route
           path="/movies"
