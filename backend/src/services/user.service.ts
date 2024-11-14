@@ -43,6 +43,11 @@ export class UserService {
 
   public update = async (req: Request, res: Response): Promise<Response> => {
     const userToken = req['user'] as JwtPayload;
+
+    if (req.body.password) {
+      req.body.password = authService.hashPassword(req.body.password);
+    }
+
     const user = await userRepository.update(userToken.id, req.body);
 
     if (!user) {

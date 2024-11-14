@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import * as httpStatus from 'http-status';
 import { Request, Response, NextFunction } from 'express';
 
 const pick = (object, keys) => {
@@ -20,7 +19,7 @@ const validate = (schema) => (req: Request, res: Response, next: NextFunction) =
 
   if (error) {
     const errorMessage = error.details.map((details) => details.message).join(', ');
-    return res.status(httpStatus.UNPROCESSABLE_ENTITY).send({ error: errorMessage });
+    return res.status(400).send({ error: errorMessage });
   }
   Object.assign(req, value);
   return next();
