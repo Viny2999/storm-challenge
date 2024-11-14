@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import { UserRole } from '../entity/enum/UserRole.enum';
+import { JwtPayload } from '../interfaces/JwtPayload.interface';
 dotenv.config();
 
 const validateRole = (requiredRoles: UserRole[]) => (req: Request, res: Response, next: NextFunction) => {

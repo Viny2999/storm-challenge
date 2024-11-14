@@ -5,11 +5,11 @@ import { User } from '../entity/User';
 export class UserRepository {
   private userRepository = dataSource.getRepository(User);
 
-  async view(id: number): Promise<User> {
+  async view(id: number): Promise<User|null> {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  async viewByEmail(email: string): Promise<User> {
+  async viewByEmail(email: string): Promise<User|null>  {
     return this.userRepository.findOne({ where: { email } });
   }
 
@@ -17,13 +17,13 @@ export class UserRepository {
     return this.userRepository.save(this.userRepository.create(user));
   }
 
-  async update(id: number, user: Partial<User>): Promise<User> {
+  async update(id: number, user: Partial<User>): Promise<User|null>  {
     delete user.role;
     await this.userRepository.update(id, user);
     return this.view(id);
   }
 
-  async delete(id: number): Promise<User> {
+  async delete(id: number): Promise<User|null>  {
     await this.userRepository.update(id, {
       status: false,
     });

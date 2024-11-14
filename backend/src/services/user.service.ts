@@ -9,7 +9,12 @@ const authService = new AuthService();
 export class UserService {
   public myUser = async (req: Request, res: Response): Promise<Response> => {
     const userToken = req['user'] as JwtPayload;
-    const user = await userRepository.view(userToken.userId);
+    const user = await userRepository.view(userToken.id);
+
+    if (!user) {
+      return this.notFoundUser(res);
+    }
+
     delete user.password;
     return res.send(user);
   }
@@ -17,6 +22,11 @@ export class UserService {
   public view = async (req: Request, res: Response): Promise<Response> => {
     const id = Number(req.params.id);
     const user = await userRepository.view(id);
+
+    if (!user) {
+      return this.notFoundUser(res);
+    }
+
     delete user.password;
     return res.send(user);
   }
@@ -33,13 +43,26 @@ export class UserService {
 
   public update = async (req: Request, res: Response): Promise<Response> => {
     const userToken = req['user'] as JwtPayload;
-    const user = await userRepository.update(userToken.userId, req.body);
+    const user = await userRepository.update(userToken.id, req.body);
+
+    if (!user) {
+      return this.notFoundUser(res);
+    }
+
     return res.send(user);
   }
 
   public delete = async (req: Request, res: Response): Promise<Response> => {
     const userToken = req['user'] as JwtPayload;
-    const user = await userRepository.delete(userToken.userId);
+    const user = await userRepository.delete(userToken.id);
+
+    if (!user) {
+      return this.notFoundUser(res);
+    }
+
     return res.send(user);
   }
+
+  private notFoundUser = (res: Response): Response => 
+    res.status(404).send({ message: 'User not found' });
 }
