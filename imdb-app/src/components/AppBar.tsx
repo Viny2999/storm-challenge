@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 interface CustomAppBarProps {
   isLoggedIn: boolean;
+  role: string | null;
   onLogout: () => void;
 }
 
-const CustomAppBar: React.FC<CustomAppBarProps> = ({ isLoggedIn, onLogout }) => {
+const CustomAppBar: React.FC<CustomAppBarProps> = ({ isLoggedIn, role, onLogout }) => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -19,6 +20,7 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({ isLoggedIn, onLogout }) => 
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('userRole');
     onLogout();
     navigate('/login');
   };
@@ -30,9 +32,21 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({ isLoggedIn, onLogout }) => 
           Movie App
         </Typography>
         {isLoggedIn ? (
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
+          <>
+            {role === 'admin' && (
+              <>
+                <Button color="inherit" onClick={() => navigate('/create-user')}>
+                  Criar Usuário
+                </Button>
+                <Button color="inherit" onClick={() => navigate('/add-movie')}>
+                  Cadastrar Filme
+                </Button>
+              </>
+            )}
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          </>
         ) : (
           <Button color="inherit" onClick={handleLogin}>
             Login
