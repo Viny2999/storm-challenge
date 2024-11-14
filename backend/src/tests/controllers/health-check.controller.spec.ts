@@ -1,4 +1,3 @@
-import * as httpStatus from 'http-status';
 import request from 'supertest';
 import { App } from '../../app';
 
@@ -8,6 +7,6 @@ describe('HealthCheck Controller', () => {
       .get('/v1/health')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(httpStatus.OK, done);
+      .expect(200, done);
   });
 });

@@ -1,18 +1,22 @@
+import { inject, injectable } from 'tsyringe';
 import { JwtPayload } from '../interfaces/JwtPayload.interface';
 import { MovieRepository } from '../repositories/movie.repository';
 import { Request, Response } from 'express';
 
-const movieRepository = new MovieRepository();
-
+@injectable()
 export class MovieService {
+  constructor(
+    @inject(MovieRepository) private movieRepository: MovieRepository,
+  ) {}
+
   public list = async (req: Request, res: Response): Promise<Response> => {
-    const movies = await movieRepository.list(req.query);
+    const movies = await this.movieRepository.list(req.query);
     return res.send(movies);
   }
   
   public view = async (req: Request, res: Response): Promise<Response> => {
     const id = Number(req.params.id);
-    const movie = await movieRepository.view(id);
+    const movie = await this.movieRepository.view(id);
 
     if (!movie) {
       return res.status(404).send({ message: 'Movie not found' });
@@ -27,7 +31,7 @@ export class MovieService {
   }
   
   public create = async (req: Request, res: Response): Promise<Response> => {
-    const movie = await movieRepository.create(req.body);
+    const movie = await this.movieRepository.create(req.body);
     return res.status(201).send(movie);
   }
 
@@ -36,7 +40,7 @@ export class MovieService {
     const userToken = req['user'] as JwtPayload;
     
     try {
-      const movie = await movieRepository.addVote(
+      const movie = await this.movieRepository.addVote(
         id,
         userToken.id,
         req.body.rating,
@@ -44,7 +48,6 @@ export class MovieService {
       
       return res.send(movie);
     } catch (error) {
-
       if (error.message.includes('duplicate key')) {
         return res.status(400).send({ message: 'You have already voted for this movie' });
       }
@@ -54,7 +57,7 @@ export class MovieService {
   }
 
   public calculateRating = async (id: number): Promise<number> => {
-    const ratings = await movieRepository.getRatings(id);
+    const ratings = await this.movieRepository.getRatings(id);
     const totalRating = ratings.reduce((acc, rating) => acc + rating.rating, 0);
     return totalRating / ratings.length;
   }

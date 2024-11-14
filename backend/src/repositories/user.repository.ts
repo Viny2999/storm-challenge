@@ -1,7 +1,9 @@
 
+import { injectable } from 'tsyringe';
 import { dataSource } from '../config/dataSource';
 import { User } from '../entity/User';
 
+@injectable()
 export class UserRepository {
   private userRepository = dataSource.getRepository(User);
 

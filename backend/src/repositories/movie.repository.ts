@@ -1,10 +1,12 @@
 
+import { injectable } from 'tsyringe';
 import { Like } from 'typeorm';
 import { dataSource } from '../config/dataSource';
 import { Movie } from '../entity/Movie';
 import { Rating } from '../entity/Rating';
 import { MovieFilter } from '../interfaces/MovieFilter.interface';
 
+@injectable()
 export class MovieRepository {
   private movieRepository = dataSource.getRepository(Movie);
   private ratingRepository = dataSource.getRepository(Rating);

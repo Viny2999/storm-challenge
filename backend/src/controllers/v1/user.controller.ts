@@ -4,9 +4,10 @@ import { UserRole } from '../../entity/enum/UserRole.enum';
 import validateRole from '../../middlewares/validateRole';
 import { JoiValidate } from '../../middlewares/validate';
 import { createUserSchema, getUserSchema, updateUserSchema } from '../../validations';
+import { container } from 'tsyringe';
 
 const router = Router();
-const userService = new UserService();
+const userService = container.resolve(UserService);
 
 router.get('/view/my', validateRole([UserRole.ADMIN, UserRole.USER]), userService.myUser);
 router.get('/:id', JoiValidate(getUserSchema), validateRole([UserRole.ADMIN]), userService.view);

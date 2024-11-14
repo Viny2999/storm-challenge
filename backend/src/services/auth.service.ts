@@ -4,11 +4,15 @@ import * as dotenv from 'dotenv';
 import { UserRepository } from '../repositories/user.repository';
 import { Request, Response } from 'express';
 import { User } from '../entity/User';
+import { inject, injectable } from 'tsyringe';
 dotenv.config();
 
-const userRepository = new UserRepository();
-
+@injectable()
 export class AuthService {
+  constructor(
+    @inject(UserRepository) private userRepository: UserRepository,
+  ) {}
+
   private saltRounds: number = Number(process.env.SALT_ROUNDS);
 
   public hashPassword = (password: string): string => {
@@ -31,7 +35,7 @@ export class AuthService {
   public login = async (req: Request, res: Response): Promise<Response> => {
     const { email, password } = req.body;
 
-    const user = await userRepository.viewByEmail(email);
+    const user = await this.userRepository.viewByEmail(email);
 
     if (!user) {
       return res.status(401).send({ message: 'Invalid email or password' });

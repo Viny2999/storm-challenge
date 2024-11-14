@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { container } from 'tsyringe';
 import { MovieService } from '../../services/movie.service';
 import { UserRole } from '../../entity/enum/UserRole.enum';
 import validateRole from '../../middlewares/validateRole';
@@ -6,7 +7,7 @@ import { JoiValidate } from '../../middlewares/validate';
 import { addVoteSchema, createMovieSchema, getMovieSchema } from '../../validations';
 
 const router = Router();
-const movieService = new MovieService();
+const movieService = container.resolve(MovieService);
 
 router.get('/', validateRole([UserRole.ADMIN, UserRole.USER]), movieService.list);
 router.get('/:id', JoiValidate(getMovieSchema), validateRole([UserRole.ADMIN, UserRole.USER]), movieService.view);
