@@ -15,14 +15,11 @@ docker compose up -d
 ```
 O Docker subirá 3 containers:
   * Banco de Dados Postgres (com criação das tabelas e usuário admin da aplicação criados)
-  * Backend
-  * Frontend
+  * Backend -> [ACESSE](http://localhost:3000/v1/health)
+  * Frontend -> [ACESSE](http://localhost:3001)
 
 ## Documentação da API
-Para conhecer os métodos expostos pelo backend acesse o Swagger em:
-```
-http://localhost:3000/v1/docs
-```
+Para conhecer os métodos expostos pelo backend acesse o [Swagger](http://localhost:3000/v1/docs)
 
 ## Usuário Default
 Na criação do banco de dados já é criado um usuário ADMIN default.
