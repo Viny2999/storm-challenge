@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { API_URL } from '../config/enviroment';
-console.log('API_URL:', API_URL)
-
-interface Movie {
-  id: number;
-  name: string;
-  description: string;
-  director: string;
-  genre: string;
-}
+import { Movie } from '../interfaces/Movie';
+import { listMovies, setAuthToken } from '../service/http.service';
 
 const MovieListPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -24,12 +15,9 @@ const MovieListPage: React.FC = () => {
       }
 
       try {
-        const response = await axios.get(`${API_URL}/v1/movie`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setMovies(response.data);
+        setAuthToken(token);      
+        const movies = await listMovies()
+        setMovies(movies);
       } catch (err) {
         setError('Failed to fetch movies.');
       }

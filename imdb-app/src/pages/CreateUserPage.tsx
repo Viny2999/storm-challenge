@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { API_URL } from '../config/enviroment';
+import { createUser, setAuthToken } from '../service/http.service';
+import { Role } from '../interfaces/User';
 
 const CreateUserPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    role: 'user', // Valor inicial
+    role: Role.USER,
   });
   const [message, setMessage] = useState('');
 
@@ -27,15 +27,8 @@ const CreateUserPage: React.FC = () => {
         throw new Error('Usuário não autenticado');
       }
 
-      await axios.post(
-        `${API_URL}/v1/user`,
-        { ...formData },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      setAuthToken(token);      
+      await createUser(formData)
 
       setMessage('Usuário criado com sucesso!');
     } catch (error) {

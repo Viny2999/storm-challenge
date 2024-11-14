@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { API_URL } from '../config/enviroment';
+import { createMovie, setAuthToken } from '../service/http.service';
 
 const AddMoviePage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -27,15 +26,8 @@ const AddMoviePage: React.FC = () => {
         throw new Error('Usuário não autenticado');
       }
 
-      await axios.post(
-        `${API_URL}/v1/movie`,
-        { ...formData },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      setAuthToken(token);      
+      await createMovie(formData)
 
       setMessage('Filme cadastrado com sucesso!');
     } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -29,7 +29,7 @@ const CustomAppBar: React.FC<CustomAppBarProps> = ({ isLoggedIn, role, onLogout 
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Movie App
+          IMDb
         </Typography>
         {isLoggedIn ? (
           <>
