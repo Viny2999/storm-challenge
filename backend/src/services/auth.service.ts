@@ -33,6 +33,10 @@ export class AuthService {
 
     const user = await userRepository.viewByEmail(email);
 
+    if (!user) {
+      return res.status(401).send({ message: 'Invalid email or password' });
+    }
+
     const isLogged = this.comparePassword(password, user.password);
 
     if (!isLogged) {

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Movie } from '../interfaces/Movie';
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, Grid, Card, CardContent, CardMedia, Alert } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { listMovies, setAuthToken } from '../service/http.service';
-import { Grid, Card, CardContent, CardMedia, Typography, Container, Alert } from '@mui/material';
+import { Movie, MovieFilter } from '../interfaces/Movie';
+import MovieFilterComponent from '../components/MovieFilterComponent';
 
 const MovieListPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState<string>('');
+  const [filters, setFilters] = useState<MovieFilter>({});
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -18,7 +20,7 @@ const MovieListPage: React.FC = () => {
 
       try {
         setAuthToken(token);
-        const movies = await listMovies();
+        const movies = await listMovies(filters);
         setMovies(movies);
       } catch (err) {
         setError('Failed to fetch movies.');
@@ -26,7 +28,11 @@ const MovieListPage: React.FC = () => {
     };
 
     fetchMovies();
-  }, []);
+  }, [filters]);
+
+  const handleFilter = (filter: MovieFilter) => {
+    setFilters(filter);
+  };
 
   return (
     <Container>
@@ -38,6 +44,7 @@ const MovieListPage: React.FC = () => {
           {error}
         </Alert>
       )}
+      <MovieFilterComponent onFilter={handleFilter} />
       <Grid container spacing={3}>
         {movies.map((movie) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>

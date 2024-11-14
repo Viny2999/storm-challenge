@@ -1,4 +1,5 @@
 
+import { Like } from 'typeorm';
 import { dataSource } from '../config/dataSource';
 import { Movie } from '../entity/Movie';
 import { Rating } from '../entity/Rating';
@@ -13,11 +14,11 @@ export class MovieRepository {
     const where: any = {};
 
     if (name) {
-      where.name = name;
+      where.name = Like(`%${name}%`);
     }
 
     if (director) {
-      where.director = director;
+      where.director = Like(`%${director}%`);
     }
 
     if (genre) {
@@ -25,7 +26,7 @@ export class MovieRepository {
     }
 
     return where;
-  }
+    }
 
   async list(filter: MovieFilter): Promise<Movie[]> {
     const where = this.makeFilter(filter);

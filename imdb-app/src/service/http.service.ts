@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../config/enviroment';
-import { Movie, MovieData, MovieDetail } from '../interfaces/Movie';
+import { Movie, MovieData, MovieDetail, MovieFilter } from '../interfaces/Movie';
 import { UserData } from '../interfaces/User';
 import { LoginResponse } from '../interfaces/Login';
 
@@ -19,6 +19,16 @@ export const setAuthToken = (token: string | null) => {
   }
 };
 
+const getParams = (filters: MovieFilter) => {
+  const params = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) {
+      params.append(key, value.toString());
+    }
+  });
+  return params.toString();
+}
+
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   const response = await apiClient.post('/v1/login', {
     email,
@@ -27,8 +37,10 @@ export const login = async (email: string, password: string): Promise<LoginRespo
   return response.data;
 };
 
-export const listMovies = async (): Promise<Movie[]> => {
-  const response = await apiClient.get('/v1/movie');
+export const listMovies = async (filters: MovieFilter): Promise<Movie[]> => {
+  const params = getParams(filters);
+  const url = `/v1/movie?${params}`;
+  const response = await apiClient.get(url);
   return response.data;
 };
 

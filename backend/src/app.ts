@@ -5,6 +5,7 @@ import { LoggerService } from './services';
 import * as dotenv from 'dotenv';
 import { connect } from './config/dataSource';
 import cors from 'cors';
+import { errorHandler } from './middlewares/errorMiddleware';
 dotenv.config();
 
 const logger = LoggerService.getLogger();
@@ -15,6 +16,7 @@ const host = process.env.HOST || 'localhost';
 
 app.use(cors());
 app.use(express.json());
+app.use(errorHandler);
 
 app.use('/v1', Routes);
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../service/http.service';
+import { Container, TextField, Button, Typography, Alert } from '@mui/material';
 
 interface LoginPageProps {
   onLoginSuccess: (token: string, role: string) => void;
@@ -27,21 +28,43 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
-        <button type="submit">Login</button>
+    <Container maxWidth="xs">
+      <Typography variant="h4" component="h1" gutterBottom>
+        Login
+      </Typography>
+      <form onSubmit={handleLogin} style={{ width: '100%' }}>
+        <TextField
+          label="Email"
+          type="email"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          style={{ marginTop: '16px' }}
+        >
+          Login
+        </Button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+      {error && (
+        <Alert severity="error" style={{ marginTop: '16px' }}>
+          {error}
+        </Alert>
+      )}
+    </Container>
   );
 };
 

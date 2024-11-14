@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getMovieById, setAuthToken, voteOnMovie } from '../service/http.service';
 import { MovieDetail } from '../interfaces/Movie';
 import { AxiosError } from 'axios';
+import { Container, Typography, Card, CardContent, CardActions, Button, TextField, Alert } from '@mui/material';
 
 const MovieDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,6 +38,7 @@ const MovieDetailPage: React.FC = () => {
     const value = Number(e.target.value);
     if (value >= 0 && value <= 4) {
       setVote(value);
+      setMessage('');
     } else {
       setMessage('Please enter a rating between 0 and 4.');
     }
@@ -67,28 +69,58 @@ const MovieDetailPage: React.FC = () => {
   };
 
   return (
-    <div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <Container maxWidth="md">
+      {error && <Alert severity="error" style={{ marginBottom: '16px' }}>{error}</Alert>}
       {movie ? (
-        <div>
-          <h2>{movie.name}</h2>
-          <p><strong>Director:</strong> {movie.director}</p>
-          <p><strong>Genre:</strong> {movie.genre}</p>
-          <p><strong>Rating:</strong> {movie.rating}</p>
-          <p><strong>Description:</strong> {movie.description}</p>
+        <Card>
+          <CardContent>
+            <Typography variant="h4" component="h2" gutterBottom>
+              {movie.name}
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary">
+              Director: {movie.director}
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary">
+              Genre: {movie.genre}
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary">
+              Rating: {movie.rating}
+            </Typography>
+            <Typography variant="body1" paragraph>
+              {movie.description}
+            </Typography>
+          </CardContent>
           {userRole === 'user' && (
-            <div>
-              <h3>Rate this movie (0-4)</h3>
-              <input type="number" value={vote} onChange={handleVoteChange} min="0" max="4" />
-              <button onClick={handleVoteSubmit}>Submit Vote</button>
-              {message && <p>{message}</p>}
-            </div>
+            <CardActions>
+              <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                <Typography variant="h6" gutterBottom>
+                  Rate this movie (0-4)
+                </Typography>
+                <TextField
+                  type="number"
+                  value={vote}
+                  onChange={handleVoteChange}
+                  inputProps={{ min: 0, max: 4 }}
+                  variant="outlined"
+                  fullWidth
+                  style={{ marginBottom: '16px' }}
+                />
+                <Button variant="contained" color="primary" onClick={handleVoteSubmit}>
+                  Submit Vote
+                </Button>
+                {message && (
+                  <Alert severity={message.includes('successfully') ? 'success' : 'error'} style={{ marginTop: '16px' }}>
+                    {message}
+                  </Alert>
+                )}
+              </div>
+            </CardActions>
           )}
-        </div>
+        </Card>
       ) : (
-        <p>Loading...</p>
+        <Typography variant="h6">Loading...</Typography>
       )}
-    </div>
+    </Container>
   );
 };
 
