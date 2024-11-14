@@ -41,6 +41,6 @@ export class AuthService {
 
     const token = this.generateToken(user);
 
-    return res.status(201).send({ token });
+    return res.status(200).send({ token });
   }
 }

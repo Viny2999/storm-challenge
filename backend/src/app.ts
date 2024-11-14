@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express';
 import { LoggerService } from './services';
 import * as dotenv from 'dotenv';
 import { connect } from './config/dataSource';
+import cors from 'cors';
 dotenv.config();
 
 const logger = LoggerService.getLogger();
@@ -12,6 +13,7 @@ const app: express.Application = express();
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/v1', Routes);

@@ -8,7 +8,6 @@ const port = process.env.PORT || 3000;
 
 const URL = `http://${host}:${port}`;
 
-console.log('URL:', URL)
 const swaggerDef = {
   openapi: '3.0.0',
   info: {
